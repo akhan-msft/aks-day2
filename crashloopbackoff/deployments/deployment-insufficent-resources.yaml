@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: insufficient-memory
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: insufficient-memory
+  template:
+    metadata:
+      labels:
+        app: insufficient-memory
+    spec:
+      containers:
+      - name: main
+        image: busybox
+        resources:
+          limits:
+            memory: "1Mi"

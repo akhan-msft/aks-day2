@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: invalid-configmap
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: invalid-configmap
+  template:
+    metadata:
+      labels:
+        app: invalid-configmap
+    spec:
+      containers:
+      - name: main
+        image: nginx
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/config
+      volumes:
+      - name: config-volume
+        configMap:
+          name: nonexistent-configmap

@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bad-command2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bad-command2
+  template:
+    metadata:
+      labels:
+        app: bad-command2
+    spec:
+      containers:
+      - name: main
+        image: akhan2017/kubernetes-quickstart:v2.0.0-SNAPSHOT
