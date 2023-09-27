@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: AKS DevSecOps Workshop
+title: AKS Day2 Operations Workshop
 #email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
   Hands-on AKS DevSecOps Workshop!
@@ -85,8 +85,8 @@ last_edit_time_format: "%b %e %Y at %I:%M %p" # uses ruby's time format: https:/
 # Footer "Edit this page on GitHub" link text
 gh_edit_link: true # show or hide edit this page link
 gh_edit_link_text: "Edit this page on GitHub."
-gh_edit_repository: "https://github.com/Azure/AKS-DevSecOps-Workshop" # the github URL for your repo
-gh_edit_branch: "main" # the branch that your docs is served from
+gh_edit_repository: "https://akhan-msft.github.io/aks-day2" # the github URL for your repo
+gh_edit_branch: "main" # the branch that your docs is served from https://akhan-msft.github.io/aks-day2/
 # gh_edit_source: docs # the source that your files originate from
 gh_edit_view_mode: "tree" # "tree" or "edit" if you want the user to jump into the editor immediately
 
@@ -100,8 +100,8 @@ ga_tracking: UA-177508304-1
 ga_tracking_anonymize_ip: true # Use GDPR compliant Google Analytics settings (true/nil by default)
 # Aux links for the upper right navigation
 aux_links:
-  "AKS DevSecOps Workshop on GitHub":
-    - "//github.com/Azure/AKS-DevSecOps-Workshop"
+  "AKS Day2  Workshop on GitHub":
+    - "//github.com/akhan-msft.github.io/aks-day2"
 
 # Makes Aux links open in a new tab. Default is false
 aux_links_new_tab: true
