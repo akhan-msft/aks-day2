@@ -5,50 +5,50 @@ has_children: false
 nav_order: 2
 ---
 
-# Module 2: Develop - GitHub Security Code scanning using CodeQL
+# Azure ACR Access/Authentication Issues with Azure AKS Cluster
+Azure Container Registry (ACR) and Azure Kubernetes Service (AKS) integration could face various access/authentication issues, primarily due to misconfigurations, expired credentials, lack of permissions, or network restrictions. Below is a markdown list detailing these potential challenges:
 
-### Perform Static Code Analysis (SAST) 
+### Common troubleshooting flow diagram
 
-Use GitHub Security scanning capabilities for code scanning using CodeQL which is the code analysis engine developed by GitHub. Code scanning is a feature that you use to analyze the code in a GitHub repository to find security vulnerabilities and coding errors. After you enable CodeQL, GitHub Actions will execute workflow runs to scan your code and display the results as code scanning alerts. The alerts provide detailed information on the source of the issue and along with details on remediation and fixes.
-
-## Lab Module 2b - Enable GitHub code scanning on your source repository  
-&nbsp;
-
-We can use the sample vulnerable app from the earlier lab (2a) for this lab exercise as well, while the Snyk extension in the earlier lab was used for doing client side analysis, GitHub code scanning will be used for server side checks to ensure all code committed to the remote repository is scanned for security vulnerabilities.
-
-1. In the GitHub console, enable code scanning within your git repository settings, **note** for forked repositories, its important that you first enable GitHub actions before security code scanning can be enabled as shown below.
-
-   ![GitHub actions Enable](../../assets/images/module2/ghub-action-enable.png)
-   
-    After GitHub actions is enabled, you can click on the Security menu option and setup code scanning as shown below
-
-   ![code scanning enable](../../assets/images/module2/code-scanning-enable.png)
-
-    Click on the setup CodeQL and select the "advanced" option as shown below
-
-   ![secrets scanning enable](../../assets/images/module2/code-scan-advanced.png)
+    ![Synk folders](../../assets/images/module2/ACR%20Managed%20identites.png)
 
 
-2. The previous step will auto generate a starter GitHub action `codeql.yml` file, we will make a small change to the `codeql.yml` to configure scanning for our sample app. Please make the following change as shown in the section below, we will comment out the Autobuild section and introduce a custom build command instead
+- **Service Principal Issues:**
+  - **Expiration:** Service Principals have an expiration date, post which they are unable to authenticate.
+  - **Insufficient Permissions:** If the Service Principal doesn't have adequate permissions to access ACR, it will fail to pull images.
+  - **Deletion or Disabling:** Deleted or disabled Service Principals result in authentication failure.
+  - **Incorrect Assignment:** Service Principals assigned to the wrong ACR or AKS may face access issues.
 
-   ```yaml
-       - name: Build Java
-         run: |
-           mvn clean package -f tools/deploy/module2/pom.xml
-   ```
-       The completed codeql.yml file should then look as follows, we will keep all the other default values.
+- **Managed Identity Issues:**
+  - **Scope of Assignment:** Managed Identities may not have the correct scope of assignment, i.e., not assigned at the correct level (Subscription, Resource Group, Resource) to have access to the ACR.
+  - **Role Assignment:** Lack of or incorrect role assignment, such as lacking AcrPull (or higher) role, can prevent pulling images.
+  - **Misconfigurations:** Incorrectly configured managed identities can lead to access issues between ACR and AKS.
 
-   ![secrets scanning enable](../../assets/images/module2/codeql-change.png)
+- **RBAC Roles:**
+  - **Lack of Appropriate Roles:** Not having appropriate roles assigned, like `AcrPull` to pull images or `AcrPush` to push images, will result in access denial.
+  - **Role Assignment Level:** Incorrect level of role assignment (Resource, Resource Group, Subscription) can also lead to issues.
+  - **Multiple Roles Conflict:** Having multiple conflicting roles assigned can cause unexpected behavior.
 
-3. Commit the `codeql.yml` file to the repository, this should automatically trigger the github code scanning action to analyze your application code.
+- **Network Policies and Firewalls:**
+  - **Network Restrictions:** AKS and ACR may be in different networks or subnets with no access to each other.
+  - **Firewall Rules:** Strict firewall rules may block the traffic between AKS and ACR.
+  - **Private Link Issues:** Misconfigurations or issues with Private Link setup can prevent access to ACR.
 
-   ![codeql github action](../../assets/images/module2/github-action-codeql.png)
- 
+- **External Private Registries:**
+  - **Authentication Issues:** Incorrect credentials, token expiry, or other authentication mechanisms can lead to failure in accessing external private registries.
+  - **Network Accessibility:** External registries might be unreachable due to network policies, firewalls, or other network-related issues.
+  - **Permissions and Roles:** External registries might require specific permissions or roles that, if not configured properly, can prevent access to the required resources.
 
-4. Following the GitHub action run, you should be able to view details of the security analysis and get details and severity level of each issue with specific instructions on remediation.
+- **ACR and AKS Configuration:**
+  - **Misconfigurations:** Incorrect configuration of ACR or AKS can prevent them from interacting successfully.
+  - **Mismatched API Versions:** API version mismatch between AKS and ACR can lead to integration failures.
+  - **Incorrect Image References:** Incorrect or non-existent image tags and references will lead to failures in pulling images from ACR.
 
-   ![codeql alerts](../../assets/images/module2/codescan-results.png)
+### Recommended Practices
+- Regularly review and renew Service Principals and Managed Identities.
+- Assign minimum necessary permissions and regularly audit roles and permissions.
+- Properly configure network policies, firewall rules, and Private Links.
+- Regularly validate the configuration and access between AKS and ACR.
 
-   Clicking on a specific alert displays the security severity details and remediation steps.
+Remember that resolving access and authentication issues typically involves examining the Kubernetes events and logs, validating the configurations, permissions, and network connectivity, and addressing any identified discrepancies or issues.
 
-   ![codeql alert details](../../assets/images/module2/codescan-details.png)
