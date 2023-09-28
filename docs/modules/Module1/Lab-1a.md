@@ -1,6 +1,6 @@
 ---
-title: Lab - IDE extensions for VS Code
-parent:  Module 2 - Develop phase
+title: CrashLoopBackOff
+parent:  Module 1 - AKS Day 2
 has_children: false
 nav_order: 1
 ---

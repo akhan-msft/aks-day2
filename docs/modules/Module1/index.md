@@ -1,25 +1,34 @@
 ---
-title: Module 1 - Plan phase
+title: Module 1 - AKS Day 2
 
 has_children: true
 
 ---
 
+## Module 1 - Introduction to Day 2 Ops
 
-## Plan phase
+Azure Kubernetes Service (AKS) is a powerful service offered by Microsoft Azure that simplifies the deployment, management, and scaling of containerized applications using Kubernetes. As more organizations leverage AKS to deploy their applications, it’s crucial for support engineers to acquire proficiency in addressing common challenges and issues that might arise during the operational phase or "Day 2" of AKS usage. This workshop will delve deep into common Day 2 issues, focusing on solving problems related to CrashLoopBackOff states, troubleshooting Azure Container Registry (ACR) access issues, and resolving Azure Front Door (AFD) integration issues with AKS. Gaining insights into these areas will empower support engineers to ensure seamless operation and maintenance of containerized applications on AKS.
 
-The plan phase generally has the least amount of automation but will have important security implications that significantly impact later DevOps lifecycle stages. This stage involves collaboration between security, development, and operations teams. Including security stakeholders in this phase of designing and planning ensures security requirements and security issues are appropriately accounted for or mitigated.
+![shift-left-model](../../assets/images/module2/shift-left.png)
 
-## Best Practice - AKS Secure platform design
+## CrashLoopBackOff 
 
-Building a secure AKS hosted platform is an important step to ensure security is built into the system at every layer, starting with the platform itself. This can include components both internal to the cluster such as runtime security and policy agents, as well as components that are external to AKS such as network firewalls, and container registries. For in-depth information on these topics, visit the AKS Landing zone accelerator, which contains critical design areas such as security, identity, and network topology.
+The CrashLoopBackOff state is a common issue in Kubernetes that occurs when a container fails to start, leading to repeated attempts and failures. We will explore the underlying causes of CrashLoopBackOff states, such as configuration errors, resource constraints, and application bugs. Participants will learn effective troubleshooting methodologies, how to access and interpret logs, and derive actionable insights to rectify the issues causing containers to enter this state.
 
-References:
-- [AKS Secure Baseline](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/containers/aks/baseline-aks)
-- [AKS Landing Zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/app-platform/aks/landing-zone-accelerator)
 
-## Best Practice - Threat Modeling
+## Azure Container Registry (ACR) Common Access Issues:
 
-Threat Modeling is traditionally a manual activity that is a collaboration involving security and development teams.  It is used to model and find threats within a system, allowing vulnerabilities to be addressed prior to any code being developed or changes being made to a system. Threat modeling can occur at different times, triggered by events such as a significant software change, solution architectural change, and security incidents.
+Azure Container Registry is pivotal for storing and managing container images, but access issues can disrupt the deployment flow. This segment will cover common ACR access problems such as authentication failures, network policies, and permission issues. Attendees will gain knowledge on diagnosing and resolving these issues, ensuring smooth and secure access to container images. A nuanced understanding of ACR's integration with AKS will be instrumental in optimizing the container lifecycle management processes.
 
-Microsoft recommends and uses the [STRIDE threat model](https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool-threats#stride-model), a methodology which starts with a data flow diagram and using the STRIDE mnemonic (Spoofing, Tampering, Info Disclosure, Repudiation, Denial of Service and Elevation of Privilege) threat categories and empowers teams to identify, mitigate, and validate risk. This also includes a [modeling tool](https://www.microsoft.com/en-us/securityengineering/sdl/threatmodeling) to easily notate and visualize system components, data flows and security boundaries. Building threat modeling into your SDLC processes will introduce new processes and additional work to maintain updated threat models but will ensure security is in place early which in turn will reduce the potential cost of dealing with security issues found in later SDLC stages.
+## Azure Front Door (AFD) Common Integration Issues with AKS:
+
+Azure Front Door offers a scalable and secure entry point for fast delivery of web applications, but integrating it with AKS can pose several challenges. This part of the workshop will focus on common integration issues like routing problems, SSL/TLS configuration errors, and application firewall setup. By addressing these issues, participants will learn to streamline the integration of AFD with AKS, ensuring the efficient delivery and enhanced security of web applications deployed in AKS.
+
+## Prerequisites
+
+This workshop will not only furnish support engineers with the knowledge to troubleshoot and resolve common AKS Day 2 issues but also provide hands-on experience and insights to preemptively address potential challenges, improving overall service reliability and user satisfaction. The sample deployment manifests will work on any Kubernetes cluster including local installations, note : sections 2/3 are core Azure services and require an AKS cluster for integration purposes.
+
+1. BYOK (Bring your own Kubernetes cluster)
+2. Text Editor (Visual Studio Code)
+3. Kubectl client CLI
+4. Git client

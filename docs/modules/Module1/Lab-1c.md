@@ -1,6 +1,6 @@
 ---
-title: Lab - pre-commit hooks
-parent:  Module 2 - Develop phase
+title: Azure Front Door (AFD) & AKS integration issues
+parent:  Module 1 - AKS Day 2
 has_children: false
 nav_order: 3
 ---

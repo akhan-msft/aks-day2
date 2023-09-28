@@ -1,6 +1,6 @@
 ---
-title: Lab - GitHub security code scanning
-parent:  Module 2 - Develop phase
+title: Azure Container Registry (ACR) and AKS access issues
+parent:  Module 1 - AKS Day 2
 has_children: false
 nav_order: 2
 ---
