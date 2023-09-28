@@ -10,7 +10,7 @@ Azure Container Registry (ACR) and Azure Kubernetes Service (AKS) integration co
 
 ### Common troubleshooting flow diagram
 
-    ![Synk folders](../../assets/images/module2/ACR%20Managed%20identites.png)
+![acr identity](../../assets/images/module2/acr-managed-identites.png)
 
 
 - **Service Principal Issues:**

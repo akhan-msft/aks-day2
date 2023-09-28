@@ -13,7 +13,7 @@ A CrashLoopBackOff status in a Kubernetes cluster means that a Container is fail
 
 ### Common troubleshooting flow diagram
 
-    ![Synk folders](../../assets/images/module2/CrashLoopBackOff.png)
+   ![CLBO flowchart](../../assets/images/module2/CrashLoopBackOff.png)
 
 
 - **Configuration Errors:**
