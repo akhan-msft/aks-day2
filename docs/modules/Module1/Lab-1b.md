@@ -19,6 +19,8 @@ Azure Container Registry (ACR) and Azure Kubernetes Service (AKS) integration co
   - **Deletion or Disabling:** Deleted or disabled Service Principals result in authentication failure.
   - **Incorrect Assignment:** Service Principals assigned to the wrong ACR or AKS may face access issues.
 
+//az aks check-acr --name ktb-aks --resource-group k8s-tech-brief-rg --acr akhanregistry.azurecr.io
+
 - **Managed Identity Issues:**
   - **Scope of Assignment:** Managed Identities may not have the correct scope of assignment, i.e., not assigned at the correct level (Subscription, Resource Group, Resource) to have access to the ACR.
   - **Role Assignment:** Lack of or incorrect role assignment, such as lacking AcrPull (or higher) role, can prevent pulling images.

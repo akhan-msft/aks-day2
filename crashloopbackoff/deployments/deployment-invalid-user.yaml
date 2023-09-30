@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: invalid-user
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: invalid-user
+  template:
+    metadata:
+      labels:
+        app: invalid-user
+    spec:
+      securityContext:
+        runAsUser: 1234 # Running as a user that may not exist or have the necessary permissions
+      containers:
+      - name: invalid-user-container
+        image: nginx

@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bad-command2
+  name: invalid-app-configuration
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: bad-command2
+      app: invalid-app-configuration
   template:
     metadata:
       labels:
-        app: bad-command2
+        app: invalid-app-configuration
     spec:
       containers:
       - name: main
-        image: akhan2017/kubernetes-quickstart:v2.0.0-SNAPSHOT
+        image: akhanregistry.azurecr.io/crashdemo:v1
