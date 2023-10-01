@@ -1,15 +1,12 @@
 # About this workshop
 
-In attending this LevelUp Workshop you will learn more about the following :
+In attending this AKS Day2 Workshop you will learn more about the following :
 
-- Understanding of DevSecOps, including vulnerabilities and best practices
-- Implementation of DevSecOps best practices for AKS
-- Understanding and Implementation of Features/Capabilities in Github and Azure to implement DevSecOps best practices for AKS
-- Newer features of Github and Azure to implement DevSecOps best practices for AKS, including Defender for DevOps, AKS add-ons, Defender for Containers, VS Code, etc.
+- Understanding focusing on solving problems related to CrashLoopBackOff states
+- Understanding and troubleshooting Azure Container Registry (ACR) access issues
+- Azure Front Door (AFD) integration issues with AKS
 
-## Diagram
-
-- ![AKS DevSecOps Architecture](assets/images/module0/aks-devsecops-architecture.png)
+Gaining insights into these areas will empower support engineers to ensure seamless operation and maintenance of containerized applications on AKS.
 
 ## Contributors
 

@@ -1,8 +1,6 @@
 ---
 title: Module 1 - AKS Day 2
-
 has_children: true
-
 ---
 
 ## Module 1 - Introduction to Day 2 Ops
