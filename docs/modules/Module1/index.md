@@ -7,8 +7,6 @@ has_children: true
 
 Azure Kubernetes Service (AKS) is a powerful service offered by Microsoft Azure that simplifies the deployment, management, and scaling of containerized applications using Kubernetes. As more organizations leverage AKS to deploy their applications, it’s crucial for support engineers to acquire proficiency in addressing common challenges and issues that might arise during the operational phase or "Day 2" of AKS usage. This workshop will delve deep into common Day 2 issues, focusing on solving problems related to CrashLoopBackOff states, troubleshooting Azure Container Registry (ACR) access issues, and resolving Azure Front Door (AFD) integration issues with AKS. Gaining insights into these areas will empower support engineers to ensure seamless operation and maintenance of containerized applications on AKS.
 
-![shift-left-model](../../assets/images/module2/shift-left.png)
-
 ## CrashLoopBackOff 
 
 The CrashLoopBackOff state is a common issue in Kubernetes that occurs when a container fails to start, leading to repeated attempts and failures. We will explore the underlying causes of CrashLoopBackOff states, such as configuration errors, resource constraints, and application bugs. Participants will learn effective troubleshooting methodologies, how to access and interpret logs, and derive actionable insights to rectify the issues causing containers to enter this state.

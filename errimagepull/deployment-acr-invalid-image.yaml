@@ -1,0 +1,19 @@
+## this deploy assumes you have connected the ACR to the cluster
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: invalid-img-tag
+  namespace: acrerrors
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: invalid-img-tag
+  template:
+    metadata:
+      labels:
+        app: invalid-img-tag
+    spec:
+      containers:
+      - name: nginx
+        image: akhanacr.azurecr.io/nginx:1.2.3333

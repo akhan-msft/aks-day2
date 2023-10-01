@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: disconnected-acr
+  namespace: acrerrors
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: disconnected-acr
+  template:
+    metadata:
+      labels:
+        app: disconnected-acr
+    spec:
+      containers:
+      - name: nginx
+        image: akhanacr.azurecr.io/nginx  

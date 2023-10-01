@@ -10,8 +10,44 @@ Azure Container Registry (ACR) and Azure Kubernetes Service (AKS) integration co
 
 ### Common troubleshooting flow diagram
 
-![acr identity](../../assets/images/module2/acr-managed-identites.png)
+   ![acr identity](../../assets/images/module2/acr-managed-identites.png)
 
+
+- **ACR and AKS Configuration:**
+  - **Misconfigurations:** Incorrect configuration of ACR or AKS can prevent them from interacting successfully.
+ 
+   ### Test a deployment from an ACR in same subscription but disconnected from the AKS cluster
+
+   ```shell
+   kubectl apply -f .\errimagepull\deployment-acr-not-connected.yaml   
+   ```
+    ![acr identity](../../assets/images/module2/disconnected-acr1.png)
+
+    ![acr identity](../../assets/images/module2/disconnected-acr2.png)
+
+    The following az cli command is very useful for checking connection configuration to an AKS cluster
+
+    ```
+   az aks check-acr --name <<AKS_CLUSTER_NAME>> --resource-group <<RESOURCE_GRP_NAME>> --acr <<ACR_ID>>
+    ```
+    ![acr identity](../../assets/images/module2/disconnected-acr3-check.png)
+
+   The following command can be used to attach an ACR to AKS cluster
+
+   ```
+   az aks update -n <<AKS_CLUSTER_NAME>> -g <<RESOURCE_GRP_NAME>> --attach-acr <<ACR_ID>>
+   ```
+   - **Incorrect Image References:** Incorrect or non-existent image tags and references will lead to failures in pulling images from ACR.
+
+    ```shell
+   kubectl apply -f .\errimagepull\deployment-acr-invalid-image.yaml   
+   ```
+   The above command attempts to provide an invalid image tag that does not exist in the repository
+
+   ![invalid-image](../../assets/images/module2/acr-invalid-img-tag1.png)
+
+   kubectl describe pod shows the following events which are somewhat deceiving as it's not an authorization issue.
+   ![invalid-image](../../assets/images/module2/acr-invalid-img-tag2.png)
 
 - **Service Principal Issues:**
   - **Expiration:** Service Principals have an expiration date, post which they are unable to authenticate.
@@ -41,10 +77,7 @@ Azure Container Registry (ACR) and Azure Kubernetes Service (AKS) integration co
   - **Network Accessibility:** External registries might be unreachable due to network policies, firewalls, or other network-related issues.
   - **Permissions and Roles:** External registries might require specific permissions or roles that, if not configured properly, can prevent access to the required resources.
 
-- **ACR and AKS Configuration:**
-  - **Misconfigurations:** Incorrect configuration of ACR or AKS can prevent them from interacting successfully.
-  - **Mismatched API Versions:** API version mismatch between AKS and ACR can lead to integration failures.
-  - **Incorrect Image References:** Incorrect or non-existent image tags and references will lead to failures in pulling images from ACR.
+
 
 ### Recommended Practices
 - Regularly review and renew Service Principals and Managed Identities.
