@@ -8,10 +8,13 @@ nav_order: 2
 # Azure ACR Access/Authentication Issues with Azure AKS Cluster
 Azure Container Registry (ACR) and Azure Kubernetes Service (AKS) integration could face various access/authentication issues, primarily due to misconfigurations, expired credentials, lack of permissions, or network restrictions. Below is a markdown list detailing these potential challenges:
 
-### Common troubleshooting flow diagram
+### Understanding AKS, ACR integration and managed identities
 
    ![acr identity](../../assets/images/module2/acr-managed-identites.png)
 
+### Common troubleshooting steps for ErrImagePull errors
+
+   ![acr identity](../../assets/images/module2/ErrImagePullBackOff.png)
 
 - **ACR and AKS Configuration:**
   - **Misconfigurations:** Incorrect configuration of ACR or AKS can prevent them from interacting successfully.
@@ -55,7 +58,6 @@ Azure Container Registry (ACR) and Azure Kubernetes Service (AKS) integration co
   - **Deletion or Disabling:** Deleted or disabled Service Principals result in authentication failure.
   - **Incorrect Assignment:** Service Principals assigned to the wrong ACR or AKS may face access issues.
 
-//az aks check-acr --name ktb-aks --resource-group k8s-tech-brief-rg --acr akhanregistry.azurecr.io
 
 - **Managed Identity Issues:**
   - **Scope of Assignment:** Managed Identities may not have the correct scope of assignment, i.e., not assigned at the correct level (Subscription, Resource Group, Resource) to have access to the ACR.
@@ -67,6 +69,23 @@ Azure Container Registry (ACR) and Azure Kubernetes Service (AKS) integration co
   - **Role Assignment Level:** Incorrect level of role assignment (Resource, Resource Group, Subscription) can also lead to issues.
   - **Multiple Roles Conflict:** Having multiple conflicting roles assigned can cause unexpected behavior.
 
+- simulate a role issue by explicitly removing the ACR pull role from the Kubelet's managed identity
+
+   ```
+   az role assignment delete --assignee 617dcb03-43e1-435f-93ac-6fd109cc4a21 --role AcrPull --scope /subscriptions/ae5cd0d7-0de7-46fc-98ed-73428e2bdd5b/resourceGroups/k8s-tech-brief-rg/providers/Microsoft.ContainerRegistry/registries/akhanregistry
+   ```
+
+- do the deployment 
+``` shell
+kubectl apply -f .\errimagepull\deployment-midentity-missing-role.yaml
+```
+
+- Observe the results
+ ![invalid-role](../../assets/images/module2/midentity-missing-role1.png)
+- We observe the events in the POD desciption by doing a Kubectl describe
+ ![invalid-role](../../assets/images/module2/midentity-missing-role2.png)
+ The ErrImagePull error results in a 401 Unauthorized error message 
+
 - **Network Policies and Firewalls:**
   - **Network Restrictions:** AKS and ACR may be in different networks or subnets with no access to each other.
   - **Firewall Rules:** Strict firewall rules may block the traffic between AKS and ACR.
@@ -76,7 +95,6 @@ Azure Container Registry (ACR) and Azure Kubernetes Service (AKS) integration co
   - **Authentication Issues:** Incorrect credentials, token expiry, or other authentication mechanisms can lead to failure in accessing external private registries.
   - **Network Accessibility:** External registries might be unreachable due to network policies, firewalls, or other network-related issues.
   - **Permissions and Roles:** External registries might require specific permissions or roles that, if not configured properly, can prevent access to the required resources.
-
 
 
 ### Recommended Practices

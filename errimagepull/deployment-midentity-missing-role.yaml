@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: midentity-missing-role
+  namespace: acrerrors
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: midentity-missing-role
+  template:
+    metadata:
+      labels:
+        app: midentity-missing-role
+    spec:
+      containers:
+      - name: main
+        imagePullPolicy: Always # we need this so cached images are not used
+        image: akhanregistry.azurecr.io/apidemo
