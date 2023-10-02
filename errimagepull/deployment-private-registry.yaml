@@ -1,0 +1,23 @@
+## This is an image pull from a private DockerHub registry
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: private-repo
+  namespace: acrerrors
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: private-repo
+  template:
+    metadata:
+      labels:
+        app: private-repo
+    spec:
+      containers:
+      - name: main
+        imagePullPolicy: Always # we need this so cached images are not used
+        image: akhan2017/nginx
+      #uncomment below lines to resolve the issue for access to private registry
+      imagePullSecrets:
+      - name: dockerhubcred
