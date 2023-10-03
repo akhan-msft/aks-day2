@@ -5,7 +5,7 @@ has_children: false
 nav_order: 2
 ---
 
-# Azure ACR Access/Authentication Issues with Azure AKS Cluster
+# Topic 2. Azure ACR Access/Authentication Issues with Azure AKS Cluster
 Azure Container Registry (ACR) and Azure Kubernetes Service (AKS) integration could face various access/authentication issues, primarily due to misconfigurations, expired credentials, lack of permissions, or network restrictions. Below is a markdown list detailing these potential challenges:
 
 ### Understanding AKS, ACR integration and Managed Identities
@@ -16,54 +16,57 @@ Newer AKS provisioned clusters use Azure AD Managed identities by default.
 
 ### Common troubleshooting steps for ErrImagePull errors
 
-The following is a guide to troubleshooting ErrImagePull & ErrImagePullBackOff errors for a deployed POD
+The following is a simple flowchart/guide to help troubleshooting ErrImagePull & ErrImagePullBackOff errors for a deployed POD
 
    ![acr identity](../../assets/images/module2/ErrImagePullBackOff.png)
 
 - **ACR and AKS Configuration:**
-  - **Misconfigurations:** Incorrect configuration of ACR or AKS can prevent them from interacting successfully.
+  - **Misconfigurations:** Incorrect configuration of ACR or AKS can prevent them from integrating successfully.
  
-   #### Test a deployment from an ACR in same subscription but disconnected from the AKS cluster
+   **Sample 1 - Disconnected ACR** Test an image pull from an ACR in the same subscription but disconnected from the AKS cluster
 
+   Use the following command to disconnect an ACR from an AKS cluster
+   ```shell
+   az aks update -n myAKSCluster -g myResourceGroup --detach-acr <acr-name>
+   ```
+   
+   Deploy an application from the disconnected ACR
    ```shell
    kubectl apply -f .\errimagepull\deployment-acr-not-connected.yaml   
    ```
     ![acr identity](../../assets/images/module2/disconnected-acr1.png)
-
+    **kubectl describe pod** shows an ErrImagePull error occurs with a HTTP **401 Unauthorized Error**
     ![acr identity](../../assets/images/module2/disconnected-acr2.png)
 
-    The following az cli command is very useful for checking and validating connection configuration between ACR and an AKS cluster.
+    The following az cli command is very useful for checking and validating connection configuration between ACR and an AKS cluster and a rule should be used to test for missing roles and integrations.
 
     ```
    az aks check-acr --name <<AKS_CLUSTER_NAME>> --resource-group <<RESOURCE_GRP_NAME>> --acr <<ACR_ID>>
     ```
-    ![acr identity](../../assets/images/module2/disconnected-acr3-check.png)
+   ![acr identity](../../assets/images/module2/disconnected-acr3-check.png)
 
-   The following command can be used to explicitly attach an ACR to an AKS cluster, multiple ACR's can be attached to a single AKS cluster.
+   The following command can subsequently used to explicitly attach an ACR to an AKS cluster, **note** multiple ACR's can be attached to a single AKS cluster.
 
    ```
    az aks update -n <<AKS_CLUSTER_NAME>> -g <<RESOURCE_GRP_NAME>> --attach-acr <<ACR_ID>>
    ```
 
-   - **Incorrect Image References:** Incorrect or non-existent image tags and references will lead to failures in pulling images from ACR. The errors can be generic and sometimes misleading.
+   - **Incorrect Image References:** Incorrect or non-existent image tags and references will lead to failures in pulling images from ACR. These errors can be generic and sometimes misleading.
 
-   #### Test a deployment from a valid ACR but incorrect image tag for an application
+   **Sample 2 - incorrect image Tag** Test a deployment from a valid ACR but incorrect image tag for an application
 
    ```shell
    kubectl apply -f .\errimagepull\deployment-acr-invalid-image.yaml   
    ```
-   The above command attempts to provide an invalid image tag that does not exist in the repository
-
    ![invalid-image](../../assets/images/module2/acr-invalid-img-tag1.png)
 
-   kubectl describe pod shows the following events which are somewhat deceiving as it's not really an authorization issue.
+   note: **kubectl describe** pod still shows the 401 Unauthorized error which is somewhat misleading in this case, pay attention to the RPC Error Code which shows **NotFound**
    ![invalid-image](../../assets/images/module2/acr-invalid-img-tag2.png)
 
 - **Service Principal Issues:**
   - **Expiration:** Service Principals have an expiration date, post which they are unable to authenticate.
   - **Insufficient Permissions:** If the Service Principal doesn't have adequate permissions to access ACR, it will fail to pull images.
   - **Deletion or Disabling:** Deleted or disabled Service Principals result in authentication failure.
-  - **Incorrect Assignment:** Service Principals assigned to the wrong ACR or AKS may face access issues.
 
 - **Managed Identity Issues:**
   - **Scope of Assignment:** Managed Identities may not have the correct scope of assignment, i.e., not assigned at the correct level (Subscription, Resource Group, Resource) to have access to the ACR.
@@ -75,22 +78,21 @@ The following is a guide to troubleshooting ErrImagePull & ErrImagePullBackOff e
   - **Role Assignment Level:** Incorrect level of role assignment (Resource, Resource Group, Subscription) can also lead to issues.
   - **Multiple Roles Conflict:** Having multiple conflicting roles assigned can cause unexpected behavior.
 
-#### Simulate an Access role issue by explicitly removing the **AcrPull** role from the Kubelet's Managed Identity account.
+ **Sample 3 - Missing Role**  This exercise Simulates an Access role issue by explicitly removing the **AcrPull** role from the Kubelet's Managed Identity account. Note: for new AKS clusters, this is enabled/set when the ACR is associated to the AKS cluster.
 
    ```
    az role assignment delete --assignee 617dcb03-43e1-435f-93ac-6fd109cc4a21 --role AcrPull --scope /subscriptions/ae5cd0d7-0de7-46fc-98ed-73428e2bdd5b/resourceGroups/k8s-tech-brief-rg/providers/Microsoft.ContainerRegistry/registries/akhanregistry
    ```
-
-- do the deployment 
+   
 ``` shell
 kubectl apply -f .\errimagepull\deployment-midentity-missing-role.yaml
 ```
 
 - Observe the results by examining the POD's description (Kubectl describe POD <<pod_name>>)
  ![invalid-role](../../assets/images/module2/midentity-missing-role1.png)
-- We observe the events in the POD desciption by doing a Kubectl describe
+- We observe the events in the POD description by doing a Kubectl describe command.The ErrImagePull error results in a **401 Unauthorized** error message which is expected as the managed identity does not have the right ACR privileges. 
  ![invalid-role](../../assets/images/module2/midentity-missing-role2.png)
- The ErrImagePull error results in a 401 Unauthorized error message which is expected as the managed identity does not have the right ACR privileges. 
+ 
 
 - **Network Policies and Firewalls:**
   - **Network Restrictions:** AKS and ACR may be in different networks or subnets with no access to each other.
