@@ -104,16 +104,15 @@ kubectl apply -f .\errimagepull\deployment-midentity-missing-role.yaml
   - **Network Accessibility:** External registries might be unreachable due to network policies, firewalls, or other network-related issues.
   - **Permissions and Roles:** External registries might require specific permissions or roles that, if not configured properly, can prevent access to the required resources.
 
- #### Try to deploy workload from an external private Docker Hub registry
+**Sample 4 - Private Registry** The following deployment attempts to pull an image from a **private** Docker Hub registry
+
  ```shell
  kubectl apply -f .\errimagepull\deployment-private-registry.yaml
  ```
- The deployment fails with an ErrImagePull, we see the error in the POD description
-
- - Observe the results
+ The deployment fails with an ErrImagePull, we see the **Access Denied.. Authorization failed** error in the events when getting the POD description
  ![invalid-role](../../assets/images/module2/private-repo1.png)
 
- - To resolve the issue, uncomment the imagePullSecrets section in the deployment.yaml and redeploy.
+ To **resolve** the issue, simply uncomment the imagePullSecrets section in the deployment.yaml and redeploy, the imagePullSecrets referenced has already been created in the AKS cluster.
    ```
       containers:
       - name: main
@@ -123,6 +122,7 @@ kubectl apply -f .\errimagepull\deployment-midentity-missing-role.yaml
       imagePullSecrets:
       - name: dockerhubcred
    ```
+   note: When dealing with external private registries, always ensure there is **connectivity/outbound access** to the external registry endpoint and an **imagePullSecrets** has been setup on the registry.
 
 ### Recommended Practices
 - Regularly review and renew Service Principals and Managed Identities.
