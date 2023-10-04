@@ -60,7 +60,7 @@ The following flowchart is a guide of how one may start troubleshooting and diag
 
    **note** Look for OOM exceptions and frequently restarting containers, Azure Monitor Log Analytics can be used to monitor and set alerts.    
 
-- **Application Errors:**
+3 **Application Errors:**
   - Application inside the container is crashing due to errors at startup, this may be due to initializing or dependency injection errors.
   - Application is exiting immediately after startup due to issues like missing dependencies or libraries.
 
@@ -69,7 +69,7 @@ The following flowchart is a guide of how one may start troubleshooting and diag
 
   **Sample 3 - Application startup failure**  This example is an application config issue, the application starts and then fails because of a dependency injection failure.
   ```shell
-   kubectl apply -f .\crashloopbackoff\deployments\deployment-invalid-app-config.yaml
+  kubectl apply -f .\crashloopbackoff\deployments\deployment-invalid-app-config.yaml
   ```
   This example is an application config issue, the application starts and then fails because a required dependency injection fails because of an invalid backend resource configuration.
 
@@ -87,7 +87,7 @@ The following flowchart is a guide of how one may start troubleshooting and diag
 
  **note** Most dependency injection frameworks like SpringBoot and .NET will often fail at startup due to object initialization failure and cause CrashLoopBackOff errors.
 
-- **Permission Issues:**
+4 **Permission Issues:**
   - The container is trying to perform actions it does not have permissions for, leading to a failure.
   - An Incorrect Security Context or Service Account is associated with the pod.
  
@@ -96,12 +96,12 @@ The following flowchart is a guide of how one may start troubleshooting and diag
   kubectl apply -f .\crashloopbackoff\deployments\deployment-invalid-user.yaml
   ```
 
-  ![bad command](../../assets/images/module2/invalid-user1.png)
+  ![invalid-user](../../assets/images/module2/invalid-user1.png)
 
    **kubectl logs** show a user error and Permission denied error
-  ![bad command](../../assets/images/module2/invalid-user2.png)
+  ![invalid-user](../../assets/images/module2/invalid-user2.png)
 
-- **Liveness/Readiness Probes Failure:**
+5 **Liveness/Readiness Probes Failure:**
   - Misconfigured or overly aggressive liveness/readiness probes causing the container to be terminated and restarted.
 
    **Sample 5 - Liveness Probe errors**  The following sample POD is configured with a liveness probe but the probe URI is invalid and results in an 404 not 200 response and thus causes the pod to get restarted.
