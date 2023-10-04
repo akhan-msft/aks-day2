@@ -43,6 +43,7 @@ The following flowchart is a guide of how one may start troubleshooting and diag
   ![bad command](../../assets/images/module2/bad-command-screenshot1.png)
 
  Use **kubectl describe pod <POD_NAME>>** to get details on failure
+
   ![bad command](../../assets/images/module2/bad-command-screenshot3.png)
 
 **note** : Always inspect the Dockerfile CMD/Entrypoint and any overrides in the deployment yaml when "Invalid path" command errors are observed in the logs. 
