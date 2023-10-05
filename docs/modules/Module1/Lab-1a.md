@@ -74,10 +74,6 @@ The following flowchart is a simple guide of how one may start troubleshooting a
   ```shell
   kubectl apply -f .\crashloopbackoff\deployments\deployment-invalid-app-config.yaml
   ```
-  
-   ```shell
-   kubectl apply -f .\crashloopbackoff\deployments\deployment-invalid-app-config.yaml
-   ```
    Notice how the POD state moves from **Error** to **CrashLoopBackOff**
    ![app-config](../../assets/images/module2/invalid-app-config1.png)
 
@@ -122,7 +118,7 @@ The following flowchart is a simple guide of how one may start troubleshooting a
 - **TimeoutSeconds** - The default is 1 second which may cause certain probes to timeout
 - **InitialDelaySeconds** - Sometimes a container may need additional time to ramp up and the default may not be applicable, this is especially true for workloads consuming a lot of downstream services line Databases, Message Brokers, etc.
 
-These are other reasons a POD may enter this state, the following can also cause this but unlikely.
+These are other reasons a Pod may enter this state, the following can also cause this but unlikely. Examine Kubelet, cluster logs for detailed information
 
 - **Node Issues:**
   - Issues with the Node itself, such as disk pressure, could indirectly cause containers to enter `CrashLoopBackOff` status.
@@ -130,6 +126,41 @@ These are other reasons a POD may enter this state, the following can also cause
 - **Quota and Limit Issues:**
   - Exceeding CPU/Memory limits, leading to the termination of containers.
   - Hitting File descriptor limits.
+
+### Useful Log Analytics (KQL) queries
+
+If you have enabled Azure Container insights and Log Analytics for your AKS cluster, you can run queries to get detailed information on the frequency and timing of CrashLoopBackOff errors
+
+The following sample query will return container details by namespace for the last hour for any containers that had a restart count of greater than 5 within the last hour.
+
+```
+KubePodInventory
+| where ClusterName == "ktb-aks"
+| where TimeGenerated > ago(1h)
+| where ContainerRestartCount > 5
+| project Name, Namespace, ContainerID, ContainerRestartCount
+```
+
+The following sample query will return container details for any pods in the CrashLoopBackOff status since the last 24hrs.
+
+```
+KubePodInventory
+| where ClusterName == "ktb-aks" 
+| where TimeGenerated > ago(1d) 
+| where ContainerStatusReason == "CrashLoopBackOff"
+| project Name, Namespace, ContainerStatusReason
+```
+
+The following query summarizes all the warnings by type and namespace for the last 24 hrs.
+
+```
+KubeEvents
+| where ClusterName == "ktb-aks"
+| where KubeEventType == "Warning" 
+| where TimeGenerated > ago(1d)
+| summarize Count=count() by Namespace, Reason
+| order by Count desc
+```
 
 
   

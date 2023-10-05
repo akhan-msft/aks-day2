@@ -138,6 +138,29 @@ These commands validate you have connectivity to the container registry and the 
 - az acr check-health --name <registry name> --ignore-errors --yes
 - az aks check-acr --resource-group <rg> --name <aks cluster> --acr <acrname/login server>
 
+### Useful Log Analytics (KQL) queries for ACR
+
+If you have enabled Log Analytics and diagnostic logs for your Azure Container Registry, you can run queries to get detailed information on the frequency of login attempts etx
+
+The following sample query will return container details by namespace for the last 4 hours for any containers that are in an ImagePullBackOff status.
+
+```
+KubePodInventory
+| where ClusterName == "ktb-aks" 
+| where TimeGenerated > ago(4h) 
+| where ContainerStatusReason == "ImagePullBackOff"
+| project Name, Namespace, ContainerStatusReason
+```
+
+The following sample query will return any 401 Unauthorized login attempts in the last 24 hrs.
+
+```
+ContainerRegistryLoginEvents
+| where TimeGenerated > ago(1d)
+| where ResultDescription contains "401"
+| sort by TimeGenerated asc
+```
+
 ### Useful references for ACR authentication issues
 [Troubleshoot Registry login](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-troubleshoot-login)
 
