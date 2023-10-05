@@ -25,9 +25,9 @@ The following is a simple flowchart/guide to help troubleshooting ErrImagePull &
  
    **Sample 1 - Disconnected ACR** Test an image pull from an ACR in the same subscription but disconnected from the AKS cluster
 
-   Use the following command to disconnect an ACR from an AKS cluster
+   Use the following command to disconnect an ACR from an AKS cluster, please replace values of resource group and registry with your own subscription values.
    ```shell
-   az aks update -n myAKSCluster -g myResourceGroup --detach-acr <acr-name>
+   az aks update -n ktb-aks -g k8s-tech-brief-rg --detach-acr akhanacr
    ```
    
    Deploy an application from the disconnected ACR
@@ -41,7 +41,7 @@ The following is a simple flowchart/guide to help troubleshooting ErrImagePull &
     The following az cli command is very useful for checking and validating connection configuration between ACR and an AKS cluster and a rule should be used to test for missing roles and integrations.
 
     ```
-   az aks check-acr --name <<AKS_CLUSTER_NAME>> --resource-group <<RESOURCE_GRP_NAME>> --acr <<ACR_ID>>
+   az aks check-acr --name ktb-aks --resource-group k8s-tech-brief-rg --acr akhanacr
     ```
    ![acr identity](../../assets/images/module2/disconnected-acr3-check.png)
 
@@ -131,6 +131,12 @@ kubectl apply -f .\errimagepull\deployment-midentity-missing-role.yaml
 - Regularly validate the configuration and access between AKS and ACR.
 
 Remember that resolving access and authentication issues typically involves examining the Kubernetes events and logs, validating the configurations, permissions, and network connectivity, and addressing any identified discrepancies or issues.
+
+### Useful az cli commands to always start troubleshooting ACR auth issues
+These commands validate you have connectivity to the container registry and the required roles have been assigned to the managed identity.
+
+- az acr check-health --name <registry name> --ignore-errors --yes
+- az aks check-acr --resource-group <rg> --name <aks cluster> --acr <acrname/login server>
 
 ### Useful references for ACR authentication issues
 [Troubleshoot Registry login](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-troubleshoot-login)

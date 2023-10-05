@@ -19,5 +19,5 @@ spec:
         imagePullPolicy: Always # we need this so cached images are not used
         image: akhan2017/nginx
       #uncomment below lines to resolve the issue for access to private registry
-      imagePullSecrets:
-      - name: dockerhubcred
+      #imagePullSecrets:
+      #- name: dockerhubcred

@@ -16,4 +16,4 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: akhanacr.azurecr.io/nginx:1.2.3333
+        image: akhanregistry.azurecr.io/crashdemo:v2
