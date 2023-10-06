@@ -59,9 +59,14 @@ The following flowchart is a simple guide of how one may start troubleshooting a
   ```shell
   kubectl apply -f crashloopbackoff/deployments/deployment-oom.yaml
   ```
-  ![oom-killed](../../assets/images/module2/oom-killed.png)
+  ![oom-killed](../../assets/images/module2/oom1.png)
 
-   **note** Look for OOM exceptions and frequently restarting containers, Azure Monitor/Log Analytics can be used to monitor these events and set alerts.    
+  By doing a Kubectl describe on the POD, we can see the **OOMKilled** error reason.
+
+  ![oom-killed](../../assets/images/module2/oom2.png)
+
+
+   **note** to **fix** the OOMKilled error, increase the memory limit for the pod in the deployment manifest file.
 
 3 **Application Errors:**
   - Application inside the container is crashing due to errors at startup, this may be due to initializing or dependency injection errors.

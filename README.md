@@ -1,1 +1,4 @@
 # aks-day2
+Azure Kubernetes Service (AKS) is a powerful service offered by Microsoft Azure that simplifies the deployment, management, and scaling of containerized applications using Kubernetes. As more organizations leverage AKS to deploy their applications, it’s crucial for support engineers to acquire proficiency in addressing common challenges and issues that might arise during the operational phase or "Day 2" of AKS usage. This repository will delve deep into common Day 2 issues, focusing on solving problems related to CrashLoopBackOff states, troubleshooting Azure Container Registry (ACR) access issues, and resolving Azure Front Door (AFD) integration issues with AKS. 
+
+The deployment files in this repo can be used to simulate the errors, the companion GitHub pages sites with details on the lab exercises and general guidance can be found here -> https://akhan-msft.github.io/aks-day2/

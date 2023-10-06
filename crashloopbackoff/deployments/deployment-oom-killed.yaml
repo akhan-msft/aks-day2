@@ -1,22 +1,23 @@
+##This deployment leaks memory and should trigger OOMKilled error
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: memory-limit-exceeded
+  name: memory-hog-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: memory-limit-exceeded
+      app: memory-hog
   template:
     metadata:
       labels:
-        app: memory-limit-exceeded
+        app: memory-hog
     spec:
       containers:
-      - name: memory-consumer
-        image: busybox
-        command: ["sh", "-c", "dd if=/dev/zero of=/dev/shm/test bs=1M count=1000 & sleep 99999"]
+      - name: memory-hog-container
+        image: akhan2017/memoryhog:latest
         resources:
           limits:
-            memory: "100Mi"  
-            cpu: "0.5"       
+            memory: "400Mi"  ##should trigger OOMKilled error
+          requests:
+            memory: "200Mi"

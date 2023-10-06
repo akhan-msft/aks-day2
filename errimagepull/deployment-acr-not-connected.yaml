@@ -15,4 +15,4 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: akhanacr.azurecr.io/nginx  
+        image: akhanacr.azurecr.io/nginx
