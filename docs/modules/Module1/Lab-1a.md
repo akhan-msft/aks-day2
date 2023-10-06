@@ -54,10 +54,10 @@ The following flowchart is a simple guide of how one may start troubleshooting a
   - Resource Quota Exhaustion: The pod may be attempting to use more resources than allowed or may exceed it's allocated limited causing an Out Of Memory (OOM) exception.
 
   **Sample 2 - OOM Killed** 
-  This deployment sets an upper memory limit on a pod but then starts running commands to consume memory so the limit is exceeded causing the POD to be killed and restarted.
+  This deployment sets an upper memory limit on a pod, the pod runs a number of iterations to consume memory so the limit is exceeded quickly causing the POD to be killed with an **OOMKilled** error.
 
   ```shell
-  kubectl apply -f crashloopbackoff/deployments/deployment-oom.yaml
+  kubectl apply -f crashloopbackoff/deployments/deployment-oom-killed.yaml
   ```
   ![oom-killed](../../assets/images/module2/oom1.png)
 
