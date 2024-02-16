@@ -1,5 +1,5 @@
 ---
-title: CrashLoopBackOff
+title: Azure Managed Prometheus
 parent:  Module 2 - AKS Day 2
 has_children: false
 nav_order: 1
