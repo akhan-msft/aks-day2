@@ -33,6 +33,28 @@ kubectl apply -f https://raw.githubusercontent.com/Azure/application-gateway-kub
 3. AGIC monitors for ingress resources and automatically creates the following components
   - A new backend pool with http settings for the required port
   - A new rule based on the ingress definition
+  - A new path based rule based on the URI of the ingress, in the ingress below, the AGIC will create a path based rule for /empapi to route to the empapi service on port 80
+
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: empapi-ingress
+  namespace: apps
+spec:
+  ingressClassName: azure-application-gateway
+  rules:
+  - http:
+      paths:
+      - path: /empapi
+        backend:
+          service:
+            name: empapi
+            port:
+              number: 80
+        pathType: Prefix
+```
+
 
 
 
