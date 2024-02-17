@@ -15,3 +15,32 @@ Azure Managed Grafana is optimized for the Azure environment. It works seamlessl
 ## Understanding Azure Grafana Architecture
 
 ![Grafana architecture](../../assets/images/module2/grafana.drawio.png)
+
+## Core components
+
+
+### Dashboards
+
+- Provides interactive visualizations and analytics.
+Allows for customization and sharing within the organization.
+Supports a variety of panels such as graphs, charts, tables, etc.
+
+### Data Sources
+
+- Offers integration with various data sources including Azure Monitor, Prometheus, and a number of popular data sources. note: 
+
+
+### Azure AD Integration
+
+- Enables seamless integration with Azure Active Directory for authentication and user management.
+Supports Single Sign-On (SSO) for a unified access experience across Azure services.
+Provides role-based access control (RBAC) for detailed permissions and security.
+
+### Alerting
+
+- Supports alerting on any metric with various notification channels such as email, Slack, webhooks, etc.
+Allows the creation of complex alerting rules based on data thresholds or anomalies.
+Integrates with Azure Monitor alerts for a comprehensive monitoring solution.
+
+
+
