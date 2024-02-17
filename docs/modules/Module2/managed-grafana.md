@@ -1,6 +1,6 @@
 ---
 title: Azure Managed Grafana
-parent:  Module 2 - AKS Day 2
+parent:  Module 2 - Azure Managed Prometheus and Grafana
 has_children: false
 nav_order: 2
 ---
