@@ -7,7 +7,7 @@ nav_order: 2
 
 ## Azure FD + AKS integration architecture
 
-![AGIC architecure](../../assets/images/module5/azfdaks.png)
+![AGIC architecure](../../assets/images/module5/afd+aks.drawio.png)
 
 
 ### Private Endpoints: 
