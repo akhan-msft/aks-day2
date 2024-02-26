@@ -55,10 +55,11 @@ Prometheus Managed Components in Azure
 4. **Sample Prometheus queries**
     - Get avg CPU utilization by cluster node
         ```
-       100 - (avg by (instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+        100 - (avg by (instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+       ```
     - Get memory usage of each node in cluster as a percentage of total memory available
         ```
-           (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100
+        (node_memory_MemTotal_bytes -   node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100
         ```
     - Get counts for a specific URI endpoint for 500 http errors
         ```

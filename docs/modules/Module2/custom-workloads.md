@@ -21,7 +21,7 @@ By default, managed prometheus only scrapes certain core Kubernetes metrics only
       prometheus.io/path: '/actuator/prometheus'
       prometheus.io/port: '80'
     ```
-3. Modify the prometheus config-map to ensure that pod scraping is enabled, it is **disabled** by default, in the following example, we are only scraping pods in the **apps** namespace
+3. Modify the prometheus config-map **ama-metrics-settings-configmap** to ensure that pod scraping is enabled, it is **disabled** by default, in the following example, we are only scraping pods in the **apps** namespace
 
     ```
     # Use '.*' to scrape all namespaces of annotated pods.
@@ -35,3 +35,34 @@ By default, managed prometheus only scrapes certain core Kubernetes metrics only
 ```
 
 # Topic 2: Troubleshooting
+
+Follow these steps
+
+1. Run the Azure recommended troubleshooting scrupt and send the output of the script with an azure ticket
+
+    ```
+    https://github.com/Azure/prometheus-collector/tree/main/internal/scripts/troubleshoot
+    ```
+2. Ensure all the Azure Monitor Agent Pods are running. 
+  
+    ```
+    kubectl get pods -n kube-system | grep ama-metrics
+    ```
+3. Look at the container logs for the Prometheus collector to ensure default scrape targets and custom targets
+
+  ```
+    kubectl logs ama-metrics-node-6n2kk  -n kube-system -c prometheus-collector
+  ```
+
+  ![prom-agent architecture](../../assets/images/module2/prom-config.png)
+
+4. If there are no errors in the logs above, the Prometheus interface can be used for debugging to verify the expected configuration and targets being scraped. If port forward cannot be used, alternatively, you may use curl within the pod or a utility pod to get the details
+
+  ```
+    kubectl port-forward <ama-metrics pod> -n kube-system 9090
+  ```
+    You should be able to see the state of the agent and the specific configurations and targets as shown below
+
+  ![prom architecture](../../assets/images/module2/prom-agent.png)
+
+
