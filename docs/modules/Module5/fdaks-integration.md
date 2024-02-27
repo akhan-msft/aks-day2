@@ -1,5 +1,5 @@
 ---
-title: Module 5 - Azure Front Door and AKS Integration Architecture
+title: AFD and AKS Integration Architecture
 parent:  Module 5 - Azure Front Door and AKS Integration
 has_children: false
 nav_order: 2
