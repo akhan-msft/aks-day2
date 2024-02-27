@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-ns
+  labels:
+    app: sample-ns
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: sample-ns
+      labels:
+        app: sample-ns
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": windows
+      containers:
+      - name: sample
+        image: mcr.microsoft.com/dotnet/framework/samples:aspnetapp
+        ports:
+          - containerPort: 80
+  selector:
+    matchLabels:
+      app: sample-ns

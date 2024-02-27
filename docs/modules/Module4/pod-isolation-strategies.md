@@ -9,8 +9,17 @@ nav_order: 1
 
 In Kubernetes and Azure Kubernetes Service (AKS), you can pin a pod to a specific node or node pool using various scheduling features. Here's a bulleted list of the different ways you can achieve this:
 
+Why is this needed?
 
-## Understanding AGIC Architecure and core components
+- You are running Windows containers and need to deploy to a Windows node pool.
+- You are using a high, expensive compute sku for a node pool with GPU for your machine learning workloads and want to isolate these to specific node pools
+- You are running highly sensitive workloads and need these isolated
+- You want to prevent running user workloads on your System/Agent node pools that are hosting your system admin components
+- You want to ensure a specific topology, spread of pods across nodes, you do not want certain workloads to be co-located with other workloads on the same node pool.
+
+
+
+## Kubernetes POD isolation strategies
 
 ### NodeSelector:
 
