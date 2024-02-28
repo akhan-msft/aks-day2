@@ -28,21 +28,13 @@ spec:
                 - back-end
             topologyKey: "kubernetes.io/hostname"
         nodeAffinity:
-          nodeSelector:
+          requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-              - matchExpressions:
-                - key: "kubernetes.io/os"
-                  operator: In
-                  values:
-                  - "linux"
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-            - nodeSelectorTerms:
-              - matchExpressions:
-                - key: "kubernetes.io/os"
-                  operator: In
-                  values:
-                  - "linux"
+            - matchExpressions:
+              - key: "kubernetes.io/os"
+                operator: In
+                values:
+                - "linux"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -74,10 +66,10 @@ spec:
                 - front-end
             topologyKey: "kubernetes.io/hostname"
         nodeAffinity:
-          nodeSelector:
+          requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-              - matchExpressions:
-                - key: "kubernetes.io/os"
-                  operator: In
-                  values:
-                  - "linux"
+            - matchExpressions:
+              - key: "kubernetes.io/os"
+                operator: In
+                values:
+                - "linux"
