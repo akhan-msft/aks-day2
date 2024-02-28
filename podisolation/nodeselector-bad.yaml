@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nspod
+spec:
+  containers:
+  - name: nscontainer
+    image: nginx
+  nodeSelector:
+    disktype: bogusssd
