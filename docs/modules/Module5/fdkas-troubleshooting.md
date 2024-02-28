@@ -45,4 +45,9 @@ The following flow chart serves as a starting point for troubleshooting AFD inte
 
 ![AFD_NSL](../../assets/images/module5/nslookup.png)
 
+## Additional Troubleshooting Steps
+
+- https://learn.microsoft.com/en-us/azure/frontdoor/troubleshoot-issues
+- https://learn.microsoft.com/en-us/samples/azure-samples/aks-front-door-private-link-service/aks-api-server-vnet-integration-bicep/
+
   
