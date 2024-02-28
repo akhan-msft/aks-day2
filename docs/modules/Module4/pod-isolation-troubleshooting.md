@@ -36,3 +36,5 @@ nav_order: 3
     - Use kubectl get nodes --show-labels to see node labels and ensure they align with your pod's scheduling requirements.
 
 
+## Azure best practices for advanced scheduling
+- https://learn.microsoft.com/en-US/azure/aks/operator-best-practices-advanced-scheduler
