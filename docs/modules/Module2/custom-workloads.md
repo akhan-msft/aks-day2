@@ -66,6 +66,7 @@ Follow these steps
   ![prom architecture](../../assets/images/module2/prom-agent.png)
 
 ## Azure Prometheus Troubleshooting links
-- https://learn.microsoft.com/en-us/azure/azure-monitor/containers/prometheus-metrics-troubleshoot
+
+- [Troubleshoot Azure Prometheus](https://learn.microsoft.com/en-us/azure/azure-monitor/containers/prometheus-metrics-troubleshoot)
 
 

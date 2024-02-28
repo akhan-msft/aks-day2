@@ -24,6 +24,15 @@ The below integration illustrates connecting an Front Door (Premium) instance in
 
 ### Private Link Service: 
 - This service exposes your internal load balance or ingress controller on AKS to the private endpoint of AFD, effectively bringing it into your virtual network.
+- Note, to create a private link service automatically with a private ingress or Load Balancer Service, simply append these annotations to the service yaml.
+    ```
+    service:
+    annotations:
+      service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+      service.beta.kubernetes.io/azure-pls-create: "true"
+      service.beta.kubernetes.io/azure-pls-name: "{name}"
+      service.beta.kubernetes.io/azure-pls-visibility: "{subscription_id}"
+    ```
 
 
 ### Azure Front Door Origin Groups: 
