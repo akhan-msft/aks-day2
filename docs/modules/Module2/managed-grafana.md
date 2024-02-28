@@ -23,17 +23,16 @@ Azure Managed Grafana is optimized for the Azure environment. It works seamlessl
 
 - Provides interactive visualizations and analytics.
 Allows for customization and sharing within the organization.
-Supports a variety of panels such as graphs, charts, tables, etc.
+Supports a variety of panels such as graphs, charts, tables, etc. Azure Managed Grafana **creates** default dashboards that can be used out of the box for your AKS clusters
 
 ### Data Sources
 
-- Offers integration with various data sources including Azure Monitor, Prometheus, and a number of popular data sources. note: 
+- Offers integration with various data sources including Azure Monitor, Prometheus, and a number of popular data sources. note: Azure Managed Grafana creates default data sources for managed Prometheus instance as well as some Azure Monitor sata sources.
 
 
 ### Azure AD Integration
 
-- Enables seamless integration with Azure Active Directory for authentication and user management.
-Supports Single Sign-On (SSO) for a unified access experience across Azure services.
+- Enables seamless integration with Azure Active Directory for authentication and user management. Supports Single Sign-On (SSO) for a unified access experience across Azure services.
 Provides role-based access control (RBAC) for detailed permissions and security.
 
 ### Alerting

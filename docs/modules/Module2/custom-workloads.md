@@ -5,15 +5,15 @@ has_children: false
 nav_order: 3
 ---
 
-## Scraping metrics from Custom Workloads
+## Scraping metrics from Custom Applications
 
 By default, managed prometheus only scrapes certain core Kubernetes metrics only such as node and other, in order to measure metrics from a specific workload or other core control plane elements, you need to modify the config map for prometheus
 
-## Changes required to support scraping for a speccific application/container
+## Changes required to support scraping for a specific application/container
 
-1. Modify the application to expose Prometheus metrics via an HTTP endpoint, most runtime support Prometheus client libraries to enable this seamlessly
+1. Modify the application to expose Prometheus metrics via an HTTP endpoint, most popular development runtime support Prometheus client libraries to enable this easily.
 
-2. Modify the deployment.yaml for the application workload and include the required annotations, the following is an example of an application that exposes its metrics at /actuator/prometheus endpoint on port 80
+2. Modify the deployment.yaml for the application workload and include the required annotations, the following is an example of an application that exposes its metrics at **/actuator/prometheus** endpoint on port 80.
 
     ```
    annotations:
@@ -64,5 +64,8 @@ Follow these steps
     You should be able to see the state of the agent and the specific configurations and targets as shown below
 
   ![prom architecture](../../assets/images/module2/prom-agent.png)
+
+## Azure Prometheus Troubleshooting links
+- https://learn.microsoft.com/en-us/azure/azure-monitor/containers/prometheus-metrics-troubleshoot
 
 

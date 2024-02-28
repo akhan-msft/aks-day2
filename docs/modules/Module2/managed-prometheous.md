@@ -16,15 +16,15 @@ Prometheus Managed Components in Azure
 
 ![prometheus architecure](../../assets/images/module2/prometheous-arch.png)
 
-1. Azure Monitor Workspace: It is a centralized workspace in Azure that collects, analyzes, and visualizes monitoring data from various sources, including Azure resources and external services. Note you cannot use a Azure Monitor Log analytics workspace for Prometheus data.
+1. **Azure Monitor Workspace**. It is a centralized workspace in Azure that collects, analyzes, and visualizes monitoring data from various sources, including Azure resources and external services. Note you cannot use a Azure Monitor Log analytics workspace for Prometheus data.
 
-2. Azure Prometheus Data Sources: These are the data sources that Azure Prometheus connects to in order to collect metrics. It can collect metrics from AKS nodes and critical AKS control plane components as well as workloads/pods deployed in the cluster.
+2. **Azure Prometheus Data Sources**: These are the data sources that Azure Prometheus connects to in order to collect metrics. It can collect metrics from AKS nodes and critical AKS control plane components as well as workloads/pods deployed in the cluster.
 
-3. Prometheus Time Series Database: This is the database that stores time-series data collected by Prometheus. It allows for efficient querying and analysis of metrics over time.
+3. **Prometheus Time Series Database**: This is the database that stores time-series data collected by Prometheus. It allows for efficient querying and analysis of metrics over time.
 
-4. Prometheus HTTP API Server  a server that exposes an HTTP API for querying and retrieving metrics from the Prometheus time series database. It allows users to retrieve metrics data using various query parameters or PromQL.
+4. **Prometheus HTTP API Server**  a server that exposes an HTTP API for querying and retrieving metrics from the Prometheus time series database. It allows users to retrieve metrics data using various query parameters or PromQL.
 
-5. Prometheus workers/data retrievers: Prometheus uses a Pull model, these are the workers responsible for collecting metrics from the configured data sources. They retrieve metrics data at regular intervals and store it in the Prometheus time series database for further analysis and visualization
+5. **Prometheus workers/data retrievers**: Prometheus uses a Pull model, these are the workers responsible for collecting metrics from the configured data sources. They retrieve metrics data at regular intervals and store it in the Prometheus time series database for further analysis and visualization
 
 ## Prometheus Metrics and PromQL
 
@@ -53,6 +53,12 @@ Prometheus Managed Components in Azure
     - For example, you can use a GET request to the `/api/v1/query` endpoint with your query as a parameter.
 
 4. **Sample Prometheus queries**
+
+    - The PromQL 'up' metric returns a value of 1 if its targets are up, meaning that the last scrape was successful and the target is providing data. It returns a value of 0 if the target is down, meaning that the last scrape failed or the target is not providing data. This metric is commonly used to monitor the health of targets.
+        ```
+        up
+        ```
+
     - Get avg CPU utilization by cluster node
         ```
         100 - (avg by (instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
@@ -64,6 +70,10 @@ Prometheus Managed Components in Azure
     - Get counts for a specific URI endpoint for 500 http errors
         ```
        employees_seconds_count{exception="ResourceNotFoundException",method="GET",outcome="SERVER_ERROR",status="500",uri="/employees/{id}",}
+        ```
+    - Get JVM memory usage for a custom java application
+        ```
+           jvm_buffer_memory_used_bytes{id="direct",}    
         ```
 
 
