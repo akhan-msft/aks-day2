@@ -8,12 +8,22 @@ nav_order: 2
 
 ### Taints & Tolerations
 
-1. Taint the node/s
+1. Get all the Taints in your AKS cluster nodes
+
+  ```
+    kubectl get nodes -o custom-columns=NAME:.metadata.name,TAINTS:.spec.taints --no-headers
+  ```
+
+2. Taint a specific node/s
 ```
-    kubectl taint nodes aks-agentpool-24727981-vmss000000 disktype=ssd:NoSchedule
+    kubectl taint nodes <node_name> disktype=ssd:NoSchedule
+```
+- To remove the taint
+```
+  kubectl taint nodes <node_name> disktype=ssd:NoSchedule-
 ```
 
-2. Deploy a pod that has the toleration
+3. Deploy a pod that has the toleration for the specific Taint
 ```
 apiVersion: v1
 kind: Pod

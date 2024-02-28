@@ -11,10 +11,11 @@ nav_order: 3
 
     - Use kubectl get pods to check if the pod is in a Pending, Running, or Error state.
     - Use kubectl describe pod <pod-name> to view events and messages related to scheduling issues.
+    - Examine the namespace pods to check for scheduling errors
 
 2. Review Taints and Tolerations:
 
-    - Nodes might have taints applied that prevent pods from being scheduled unless the pod has a matching toleration. Use kubectl get nodes -o json | jq '.items[].spec.taints'
+    - Nodes might have taints applied that prevent pods from being scheduled unless the pod has a matching toleration. U
     
 3. list taints on nodes.
     - Ensure your pod specs include the necessary tolerations for the taints present on your target nodes.
