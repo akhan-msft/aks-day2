@@ -38,7 +38,7 @@ By default, managed prometheus only scrapes certain core Kubernetes metrics only
 
 Follow these steps
 
-1. Run the Azure recommended troubleshooting scrupt and send the output of the script with an azure ticket
+1. Run the Azure recommended troubleshooting script and send the output of the script with an azure ticket
 
     ```
     https://github.com/Azure/prometheus-collector/tree/main/internal/scripts/troubleshoot
