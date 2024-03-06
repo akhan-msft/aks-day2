@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empapi-deploy
+  labels:
+    app: empapi
+  namespace: apps
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: empapi
+  template:
+    metadata:
+      labels:
+        app: empapi
+    spec:
+      containers:
+        - name: empapi
+          image: akhan2017/empapi
+          ports:
+            - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: empapi
+  namespace: apps
+spec:
+  type: ClusterIP
+  selector:
+    app: empapi
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 80
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: empapi-ingress
+  namespace: apps
+  #annotations:
+    #kubernetes.io/ingress.class: azure/application-gateway
+spec:
+  ingressClassName: azure-application-gateway
+  rules:
+  - http:
+      paths:
+      - path: /empapi
+        backend:
+          service:
+            name: empapi
+            port:
+              number: 8080
+        pathType: Prefix
