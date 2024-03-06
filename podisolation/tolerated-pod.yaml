@@ -1,7 +1,8 @@
+## This pod tolerates a node with a disktype label set to ssd.
 apiVersion: v1
 kind: Pod
 metadata:
-  name: mypod-tolerations
+  name: mypod-toleration5
 spec:
   containers:
   - name: mycontainer
