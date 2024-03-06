@@ -9,21 +9,32 @@ nav_order: 3
 
 1. Check Pod Status and Events:
 
-    - Use kubectl get pods to check if the pod is in a Pending, Running, or Error state.
+    - Use kubectl CLI to check pods to examine if the pod is in a Pending, Running, or error state.
+        ```
+        kubectl get pods 
+        ```
     - Use kubectl describe pod <pod-name> to view events and messages related to scheduling issues.
-    - Examine the namespace pods to check for scheduling errors
+        ```
+        kubectl describe pod <pod_name> -n <namespace>
+        ```
+    - Examine the events in the cluster namespace to check for scheduling errors
+        ```
+        kubectl get events -n <namespace>
+        ```
+        Usually scheduling errors show up as "failed Scheduling" errors as shown below
+        ![pod-error](../../assets/images/module2/pod-scheduling-error.png)
+
 
 2. Review Taints and Tolerations:
 
-    - Nodes might have taints applied that prevent pods from being scheduled unless the pod has a matching toleration. U
+    - Nodes might have taints applied that prevent pods from being scheduled unless the pod has a matching toleration. 
     
-3. list taints on nodes.
+3. List taints on your AKS nodes.
     - Ensure your pod specs include the necessary tolerations for the taints present on your target nodes.
 
-4. Verify Resource Requests and Limits:
-
-    - Ensure the pod's resource requests and limits are within the capacity of your nodes. Pods might not be scheduled if they request more resources than any node can offer.
-    - Compare the pod's resource requests to the node capacities using kubectl describe nodes.
+        ```
+        kubectl get nodes -o custom-columns=NAME:.metadata.name,TAINTS:.spec.taints --no-headers
+        ```
 
 5. Check Affinity and Anti-Affinity Rules:
 
@@ -32,7 +43,17 @@ nav_order: 3
 
 6. Inspect Node Selector and Node Affinity:
 
-    - Pods might have node selector or node affinity rules that limit the nodes they can be scheduled on. Verify these rules match the labels of available nodes.
+    - Pods might have node selector or node affinity rules that limit the nodes they can be scheduled on. Verify these rules match the labels of available nodes. For example, the following pod has a node affinity for a node that has label **kubernetes.io/os: linux**
+    ```
+      nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: "kubernetes.io/os"
+                operator: In
+                values:
+                - "linux"
+    ```
     - Use kubectl get nodes --show-labels to see node labels and ensure they align with your pod's scheduling requirements.
 
 
