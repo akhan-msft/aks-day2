@@ -58,4 +58,4 @@ nav_order: 3
 
 
 ## Azure best practices for advanced scheduling
-- https://learn.microsoft.com/en-US/azure/aks/operator-best-practices-advanced-scheduler
+- [Azure AKS Scheduling best Practices](https://learn.microsoft.com/en-US/azure/aks/operator-best-practices-advanced-scheduler)

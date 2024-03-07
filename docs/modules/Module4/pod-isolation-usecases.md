@@ -10,162 +10,59 @@ nav_order: 2
 
 1. Get all the Taints in your AKS cluster nodes
 
-  ```
+    ```
     kubectl get nodes -o custom-columns=NAME:.metadata.name,TAINTS:.spec.taints --no-headers
-  ```
+    ```
 
 2. Taint a specific node/s
-```
+    ```
     kubectl taint nodes <node_name> disktype=ssd:NoSchedule
-```
-- To remove the taint
-```
+    ```
+- To **remove** the taint
+  ```
   kubectl taint nodes <node_name> disktype=ssd:NoSchedule-
-```
+  ```
 
 3. Deploy a pod that has the toleration for the specific Taint
-```
-apiVersion: v1
-kind: Pod
-metadata:
-  name: mypod-tolerations
-spec:
-  containers:
-  - name: mycontainer
-    image: nginx
-  tolerations:
-  - key: "disktype"
-    operator: "Equal"
-    value: "ssd"
-    effect: "NoSchedule"
-````
+    ```
+    kubectl apply -f https://raw.githubusercontent.com/akhan-msft/aks-day2/main/podisolation/tolerated-pod.yaml
+    ```
 
+    Specifying a toleration does not mean that a Pod is guaranteed to be deployed to a tainted node, to guarantee this behavior you have to use the Toleration along with Node affinity as shown in the following deployment manifest.
+
+    ```
+    kubectl apply -f https://raw.githubusercontent.com/akhan-msft/aks-day2/main/podisolation/taintandaffinity.yaml
+    ```
 
 ### Node Selector
-1. Deploy pod that does not have matching node based on node selector
+1. Deploy a pod that **does not** have matching node based on node selector
 
-```
-apiVersion: v1
-kind: Pod
-metadata:
-  name: nspod
-spec:
-  containers:
-  - name: nscontainer
-    image: nginx
-  nodeSelector:
-    disktype: bogusssd
-```
+    ```
+    kubectl apply -f https://raw.githubusercontent.com/akhan-msft/aks-day2/main/podisolation/nodeselector-bad.yaml
+    ```
 
-Notice pod will remain in pending state and events displays the message and is very explicit regarding the node selector
+    Notice pod will remain in pending state and events displays the message and is very explicit regarding the node selector
 
-2. Deploy a windows container on a windows node pool
+2. Deploy a windows container on a windows node pool using the correct node selector
 
-```
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: sample
-  labels:
-    app: sample
-spec:
-  replicas: 1
-  template:
-    metadata:
-      name: sample
-      labels:
-        app: sample
-    spec:
-      nodeSelector:
-        "kubernetes.io/os": windows
-      containers:
-      - name: sample
-        image: mcr.microsoft.com/dotnet/framework/samples:aspnetapp
-        resources:
-          limits:
-            cpu: 1
-            memory: 800M
-        ports:
-          - containerPort: 80
-```
+    ```
+    kubectl apply -f https://raw.githubusercontent.com/akhan-msft/aks-day2/main/podisolation/windows-container.yaml
+    ```
 
-### Pod Anti-affinity and Affinity rules
+### Pod Anti-affinity and Node-Affinity rules
 
-1. in the following example, we want to deploy pods on separate nodes so that front-end pods and backend pods are on separate nodes, we would use an anti affinity rule for this.
+1. in the following example, we want to deploy pods on separate nodes so that front-end pods and backend pods are on separate nodes, we would use an Po anti-affinity rule for this.
 
-```
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: front-end
-  labels:
-    app: front-end
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: front-end
-  template:
-    metadata:
-      labels:
-        app: front-end
-    spec:
-      containers:
-      - name: nginxfe
-        image: nginx:latest
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - back-end
-            topologyKey: "kubernetes.io/hostname"
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: back-end
-  labels:
-    app: back-end
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: back-end
-  template:
-    metadata:
-      labels:
-        app: back-end
-    spec:
-      containers:
-      - name: nginxbe
-        image: nginx:latest
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - front-end
-            topologyKey: "kubernetes.io/hostname"
+    ```
+    kubectl apply -f https://raw.githubusercontent.com/akhan-msft/aks-day2/main/podisolation/pod-antiaffinity.yaml
+    ```
 
 
-```
-2. Subsequently POD affinity rules can be used to make pods co-exist next to each other.
+2. Subsequently POD anti-affinity rules combined with Node affinity so pods can be deployed to each node of a specific label selector.
 
-```
-  affinity:
-    podAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-      - labelSelector:
-          matchLabels:
-            app: app-a
-        topologyKey: "kubernetes.io/hostname"
-```
+    ```
+    kubectl apply -f https://raw.githubusercontent.com/akhan-msft/aks-day2/main/podisolation/pod-antiaffinity-nodeaffinity.yaml
+    ```
+
 
 
