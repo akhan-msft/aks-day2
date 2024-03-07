@@ -7,7 +7,7 @@ nav_order: 1
 
 # Topic 1: Azure Application Gateway
 
-**Azure AGIC** is a fully managed Prometheus compatible service from Azure Monitor that delivers the best of what you like about the open-source ecosystem while automating complex tasks such as scaling, high-availability, and 18 months of data retention.
+**Azure AGIC** The Application Gateway Ingress Controller (AGIC) is a fully managed Kubernetes application and Ingress controller and makes it possible for Azure Kubernetes Service (AKS) customers to leverage Azure's native Application Gateway L7 load-balancer to expose services to the outside. AGIC monitors the Kubernetes cluster for any Ingress resources and continuously updates aa Application Gateway and its corresponding components like backend pools, http settings and health probes.
 
 
 ## Understanding AGIC Architecure and core components

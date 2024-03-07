@@ -5,15 +5,18 @@ has_children: false
 nav_order: 3
 ---
 
-# Topic 3: AGIC Troublehooting flow
+# Topic 3: AGIC Troubleshooting steps
 
 
-
-## Troubleshooting steps
+## Troubleshooting Flow
 
 AGIC with AKS integration
 
-Please refere to the following official documentation also for AGIC troubleshootoing -> https://learn.microsoft.com/en-us/azure/application-gateway/ingress-controller-troubleshoot
+Please also refer to the official documentation also for AGIC troubleshooting
+-  [Troubleshooting AGIC](https://learn.microsoft.com/en-us/azure/application-gateway/ingress-controller-troubleshoot)
 
-![AGIC architecure](../../assets/images/module3/AGICTroubleshooting.png)
+
+![AGIC-Troubleshooting](../../assets/images/module3/AGICTroubleshooting-v2.png)
+
+
 
