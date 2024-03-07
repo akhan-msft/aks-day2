@@ -1,5 +1,5 @@
 ---
-title: AFD and AKS Integration Architecture
+title: AKS Nginx Ingress - cert renewals
 parent:  Module 6 - AKS Nginx Ingress - cert renewals
 has_children: false
 nav_order: 1
