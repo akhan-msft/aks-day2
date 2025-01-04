@@ -1,0 +1,46 @@
+{
+    "name": "Java 17 + Maven + Docker-in-Docker + Minikube",
+    
+    "image": "mcr.microsoft.com/devcontainers/base:bullseye",
+  
+   
+    "features": {
+     
+      "ghcr.io/devcontainers/features/docker-in-docker:2": {
+        "enableNonRootDocker": "true",
+			  "moby": "true"
+      },
+  
+     
+      "ghcr.io/devcontainers/features/java:1": {
+        "installMaven": true,
+			  "version": "17",
+			  "jdkDistro": "ms",
+			  "gradleVersion": "latest",
+			  "mavenVersion": "3.8.6",
+			  "antVersion": "latest",
+			  "groovyVersion": "latest"
+      },
+  
+   
+      "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+			  "version": "latest",
+			  "helm": "latest",
+			  "minikube": "latest"
+		  },
+
+      "ghcr.io/devcontainers/features/azure-cli:1": {}
+    },
+  
+  
+    "forwardPorts": [8080, 30000],
+  
+   
+    "remoteUser": "vscode",
+
+   
+    "postCreateCommand": "sudo usermod -aG docker vscode",
+
+    "postStartCommand": "minikube start --driver=docker"
+  }
+  
